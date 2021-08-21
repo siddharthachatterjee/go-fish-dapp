@@ -22,9 +22,9 @@ contract GoFish {
     int deckSize = 52;
    // uint8 int numRanks = 13;
     mapping (string => int) rem;
-    mapping (address => uint) playerId;
+    mapping (address => uint) public playerId;
     mapping (uint => uint[]) owns;
-    Player[]  players;
+    Player[] public players;
     address public dealer;
     uint public currentPlayer = 1;
     GamePhase phase;

@@ -1,4 +1,4 @@
-let GoFish = artifacts.require("./GoFish.sol");
+let GoFish = artifacts.require("GoFish.sol");
 
 let instance;
 
@@ -8,6 +8,12 @@ contract("Go Fish Contract", accounts => {
 
             instance = inst;
             assert(inst !== undefined)
+        })
+    })
+
+    it ("Should set dealer", () => {
+        return instance.dealer().then(res => {
+            assert(res !== undefined, "Dealer is undefined")
         })
     })
 })

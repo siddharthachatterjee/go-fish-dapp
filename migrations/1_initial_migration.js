@@ -1,5 +1,5 @@
-const GoFish = artifacts.require("../contracts/GoFish.sol");
+const Migrations = artifacts.require("Migrations.sol");
 
 module.exports = function (deployer) {
-  deployer.deploy(GoFish);
+  deployer.deploy(Migrations);
 };
