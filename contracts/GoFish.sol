@@ -96,7 +96,7 @@ contract GoFish {
         }
         return false;
     }
-    function invite(address addr) public onlyDealer beforeGameStarts {
+    function invite(address addr) public beforeGameStarts {
         require(playerId[addr] == 0 && (addr != dealer || players.length == 0));
         if (deckSize < 5) {
             revert("Not enough cards for new player");
