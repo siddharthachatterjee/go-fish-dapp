@@ -21,7 +21,10 @@ const UI = ({instance}) =>{
         .then(res => {
             instance.playerId(address)
                 .then(res2 => {
-                    setId(res2.c[0])
+                    setId(res2.c[0]);
+                    if (res2.c[0] !== 0 || address == dealer)
+                        instance.players(res2.c[0])
+                            .then(player_ => setPlayer(player_))
                 })
             setDealer(res)
         })
@@ -32,44 +35,36 @@ const UI = ({instance}) =>{
           setHand(res)
         })
       .catch(err => alert(JSON.stringify(err)))
-  // alert(instance.dealer().toString())
-   // console.log(instance.players)
-    // instance.drawCard()
-    //   .then(res => setHand(res.toString()));
-    //instance.invite()
-    
-    // instance.players(0)
-    //   .then(res => setHand(res.toString("")))
   }, [address]);
   return (
-    <div>
-      {address == dealer &&
-      (<div>
-      Invite an account:
-      <select value = {address} onChange = {e => setAddress(e.target.value)}>
-        {accounts.map((account, i) => (
-          <option value = {account} key = {i}> 
-            {account}
-          </option>
-        ))}
-        
-      </select>
-      </div>)}
-      Playing As:
-      <br />
-      {address}
-      <br />
-      {hand && (id != 0 || address == dealer) ? (
-          <div>
-          
-            Your hand:
-            {hand.map((card, i) =>(
-                <div key = {i}> {card} </div>
-            ))}
-          </div>
-      ) :
-      <button onClick = {() => instance.invite(address)}> Join Game </button>
-      }
+    <div id = "container">
+        {address ? <div>
+            Playing As:
+            <br />
+            {address}
+            <br />
+            {hand && (id != 0 || address == dealer) ? (
+                <div>
+                
+                    Your hand:
+                    {hand.map((card, i) =>(
+                        <div key = {i}> {card} </div>
+                    ))}
+                </div>
+            ) :
+            <button onClick = {() => instance.invite(address).then(() => window.location.reload())}> Join Game </button>
+            }
+            <br />
+            {address == dealer ?
+            (<div>
+            You are the dealer. Invite an account:
+            <input value = {address === dealer? "" : address} onChange = {e => setAddress(e.target.value)} />
+            <button onClick = {() => instance.invite(address)}> Invite </button>
+            </div>) : 
+            <div>
+            Dealer is {dealer}
+            </div>}
+      </div> : "Your account is not connected to this site. Manually connect an account to your wallet(In MetaMask, for example, you can click the extension, press 3 dots  in upper right > connected sites > manually connect to current site), and reload the page."}
     </div>
   );
 }
