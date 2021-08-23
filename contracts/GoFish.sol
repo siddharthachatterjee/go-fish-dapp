@@ -58,7 +58,10 @@ contract GoFish {
         callsToRand += (123456789 * 5);
         return uint(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender, dealer, callsToRand)));
     }
-    
+
+    function joined(address addr) public view returns (bool) {
+        return (playerId[addr] != 0 || addr == dealer);
+    }
     function drawCard() private returns (string memory) {
         if (deckSize == 0) {
             revert("Deck is empty!");
@@ -85,6 +88,8 @@ contract GoFish {
     }
     
     function seeHand() public view returns (string[] memory) {
+        if (!joined(msg.sender)) return new string[](0);
+      //  if (playerId[msg.sender] ==)
         return players[playerId[msg.sender]].cards;
     }
     
